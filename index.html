@@ -64,8 +64,8 @@
                         <p>Super fast delivery of your orders, and 24*7 customer support from us. We guarantee the Orders will be processed as soon as the order is placed. In an Extreme case if not completed. Just a click away to chat with us! Go to the support page, open a support ticket and you're ready to start a chat with us!</p>
                     </div>
                     <div class="feature-card">
-                        <h3>SMM Panel with PayTM/UPI/Crypto</h3>
-                        <p>We accept payments through Crypto and PayTM, Btc. You can Add funds Easily through Paytm QR Code by Scanning. Funds will be Loaded Automatically!. Simple one click deposit with No Hidden Charges.</p>
+                        <h3>SMM Panel with PayTM/UPI/QR</h3>
+                        <p>We accept payments through PayTM and UPI. You can Add funds Easily through QR Code by Scanning. Funds will be Loaded Automatically!. Simple one click deposit with No Hidden Charges.</p>
                     </div>
                     <div class="feature-card">
                         <h3>Amazing prices</h3>
@@ -117,21 +117,21 @@
                         <p>"I'm an SMM specialist and I used to spend so much time on growing my clients' social media accounts. But this SMM panel changed my life! Now I'm able to save much more time (and money!) while expanding my clientele. Thank you!!"</p>
                         <div class="review-author">
                             <strong>Rahul Yadav</strong>
-                            <span>Gurugram</span>
+                            <span>(Gurugram)</span>
                         </div>
                     </div>
                     <div class="review-card">
                         <p>"I can only speak from my experience but let me tell you this: you can't go wrong with this SMM panel. Great services that are so cheap!"</p>
                         <div class="review-author">
                             <strong>Shiv Kumar</strong>
-                            <span>Lucknow</span>
+                            <span>(Lucknow)</span>
                         </div>
                     </div>
                     <div class="review-card">
                         <p>"No matter how much I tried to promote my business online, I didn't get good results. I was just a beginner small business owner so I didn't have lots of money to spend on professional online promos. Using this panel helped me save a TON on SMM services."</p>
                         <div class="review-author">
                             <strong>Shilpa Rao</strong>
-                            <span>Delhi</span>
+                            <span>(Delhi)</span>
                         </div>
                     </div>
                     <div class="review-card">
@@ -294,7 +294,7 @@
             <div id="dashboardServices" class="dashboard-content">
                 <div class="container">
                     <h1>SMM Services</h1>
-                    <div class="services-grid" id="smmServicesList">
+                    <div class="services-grid" id="servicesList">
                         <!-- Services populated by JavaScript -->
                     </div>
                 </div>
@@ -317,21 +317,14 @@
                     <div class="funds-section">
                         <div class="payment-methods">
                             <div class="payment-method" onclick="selectPaymentMethod('paytm')">
-                                <div class="payment-icon">📱</div>
+                                <div class="payment-icon">💳</div>
                                 <div class="payment-info">
                                     <h3>PayTM/UPI</h3>
                                     <p>Instant deposit via QR code</p>
                                 </div>
                             </div>
-                            <div class="payment-method" onclick="selectPaymentMethod('crypto')">
-                                <div class="payment-icon">₿</div>
-                                <div class="payment-info">
-                                    <h3>Cryptocurrency</h3>
-                                    <p>Bitcoin, Ethereum accepted</p>
-                                </div>
-                            </div>
                             <div class="payment-method" onclick="selectPaymentMethod('qr')">
-                                <div class="payment-icon">📷</div>
+                                <div class="payment-icon">📱</div>
                                 <div class="payment-info">
                                     <h3>QR Scanner</h3>
                                     <p>Scan payment QR code</p>
@@ -342,7 +335,7 @@
                             <form id="addFundsForm">
                                 <div class="form-group">
                                     <label class="form-label">Amount (₹)</label>
-                                    <input type="number" class="form-control" id="fundAmount" min="100" required>
+                                    <input type="number" class="form-control" id="addFundsAmount" min="100" required>
                                 </div>
                                 <button type="submit" class="btn btn--primary">Add Funds</button>
                             </form>
@@ -377,22 +370,88 @@
         </div>
     </div>
 
-    <!-- QR Scanner Modal -->
-    <div id="qrScannerModal" class="modal hidden">
+    <!-- Services Page -->
+    <div id="servicesPage" class="page hidden">
+        <div class="container">
+            <h1>Our Services</h1>
+            <div class="services-grid" id="smmServicesList">
+                <!-- Services populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Payment Modal -->
+    <div id="qrModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>QR Code Scanner</h3>
-                <button class="modal-close" onclick="closeQRScanner()">×</button>
+                <h3>Payment via QR Code</h3>
+                <button class="modal-close" id="qrModalClose">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="qr-scanner-container">
-                    <video id="qrVideo" class="qr-video" autoplay playsinline></video>
-                    <div class="qr-overlay">
-                        <div class="qr-frame"></div>
+                <div class="qr-payment-container">
+                    <div class="qr-code-display">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=smmvault@paytm&pn=SMM%20Vault&am=100&cu=INR" alt="Payment QR Code" class="qr-image">
+                    </div>
+                    <div class="payment-instructions">
+                        <h4>Scan & Pay ₹<span id="qrAmount">100.00</span></h4>
+                        <p>Open any UPI app (PayTM, PhonePe, Google Pay)</p>
+                        <p>Scan the QR code above</p>
+                        <p>Complete the payment</p>
+                        <p>Funds will be added automatically</p>
+                    </div>
+                    <div class="payment-status">
+                        <div class="loading-spinner"></div>
+                        <p>Waiting for payment confirmation...</p>
                     </div>
                 </div>
-                <p class="qr-instructions">Position the QR code within the frame to scan</p>
-                <button class="btn btn--outline" onclick="closeQRScanner()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Place Order</h3>
+                <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-details">
+                    <h4 id="orderServiceName">Service Name</h4>
+                    <p>Rate: <span id="orderServiceRate">₹0.50</span> per unit</p>
+                    <p>Min: <span id="orderServiceMin">100</span> | Max: <span id="orderServiceMax">10000</span></p>
+                </div>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label class="form-label">Link</label>
+                        <input type="url" class="form-control" id="orderLink" required placeholder="https://instagram.com/username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="orderQuantity" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Funds Modal -->
+    <div id="addFundsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Funds</h3>
+                <button class="modal-close" onclick="closeModal('addFundsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>You need to add funds to place this order.</p>
+                <form id="addFundsForm">
+                    <div class="form-group">
+                        <label class="form-label">Amount (₹)</label>
+                        <input type="number" class="form-control" id="addFundsAmount" min="100" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary">Add Funds via QR</button>
+                </form>
             </div>
         </div>
     </div>
@@ -402,10 +461,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="successTitle">Success!</h3>
-                <button class="modal-close" onclick="closeModal('successModal')">×</button>
+                <button class="modal-close" onclick="closeModal('successModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="success-icon">✅</div>
+                <div class="success-icon">✓</div>
                 <p id="successMessage">Operation completed successfully!</p>
                 <button class="btn btn--primary" onclick="closeModal('successModal')">OK</button>
             </div>
@@ -416,11 +475,11 @@
     <div id="errorModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Error</h3>
-                <button class="modal-close" onclick="closeModal('errorModal')">×</button>
+                <h3 id="errorTitle">Error</h3>
+                <button class="modal-close" onclick="closeModal('errorModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="error-icon">❌</div>
+                <div class="error-icon">✗</div>
                 <p id="errorMessage">Something went wrong!</p>
                 <button class="btn btn--primary" onclick="closeModal('errorModal')">OK</button>
             </div>
